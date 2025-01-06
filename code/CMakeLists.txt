@@ -1,4 +1,6 @@
-add_executable(${PROJECT_NAME})
+#add_executable(${PROJECT_NAME})
+add_library(${PROJECT_NAME} SHARED ${SOURCES})
+
 
 add_custom_target(run 
     COMMAND ${PROJECT_NAME}
