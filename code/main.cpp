@@ -6,6 +6,7 @@
 #include <dxgi.h>
 #include <fstream> // For logging errors to a file
 #include <iostream>
+#include <string>
 
 
 // Link necessary libraries
@@ -60,7 +61,7 @@ const char *pixelShaderSource = R"(
 )";
 
 // Function to log error messages to a file
-void LogError(const char *message) {
+void LogError(const std::string& message) {
   std::ofstream logFile("d3d_overlay_error.log", std::ios::app);
   if (logFile.is_open()) {
     logFile << message << std::endl;
@@ -226,7 +227,9 @@ DWORD WINAPI MainThread(LPVOID lpParameter) {
     nullptr, D3D_DRIVER_TYPE_HARDWARE, nullptr, 0, featureLevels, ARRAYSIZE(featureLevels),
     D3D11_SDK_VERSION, &swapChainDesc, &swapChain, &pDevice, &featureLevel, &pContext);
   if (FAILED(hr)) {
-    LogError("Failed to create device and swap chain.");
+    std::string msg = "Failed to create device and swap chain: ";
+    msg += std::to_string(hr);
+    LogError(msg);
     return 1;
   }
 
